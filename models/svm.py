@@ -10,8 +10,9 @@ class SVMClassifier:
         self.data = None
         self.weights = None
         self.score = None
-        self.model = svm.LinearSVC(max_iter=20000, dual=False, C= 0.3)
-        #self.model = SGDClassifier()
+        #self.model = svm.LinearSVC(max_iter=20000, dual=False)
+        #self.model = svm.NuSVC(gamma='auto', nu=0.2)
+        self.model = svm.SVC()
 
     def train(self, X_train, y_train, save_url = None):
         print("[!] Training...")
@@ -21,8 +22,8 @@ class SVMClassifier:
                 pickle.dump(self.model, f)
                 print("Model saved at ", save_url)
         print("[i] Train completed.")
-        print("[i] Weight = ", self.model.coef_)
-        print("[i] Labels = ", self.model.classes_)
+        #print("[i] Weight = ", self.model.coef_)
+        #print("[i] Labels = ", self.model.classes_)
 
 
     def predict(self, X_test, Y_test):

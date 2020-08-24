@@ -85,7 +85,7 @@ class DataReader:
         features = result
         dataPack = DataPack.DataPack(features, labels)
         print("Read file succesfully.")
-        print( pd.concat([result, labels], axis=1) )
+        ##print( pd.concat([result, labels], axis=1) )
         return dataPack
 
     def __readTrainData(self, url):
@@ -107,8 +107,10 @@ class DataReader:
         col_list = (self.train.features.append([self.test.features])).columns.tolist()
         self.train.features = self.train.features.reindex(columns=col_list, fill_value=0)
         self.test.features = self.test.features.reindex(columns=col_list, fill_value=0)
-        print(self.train.features)
-        print(self.test.features)
+        
+        ## xuất ra ngoài
+        self.train.PrintToScreen()
+        self.test.PrintToScreen()
         print("[i] Data is ready.")
 
     ## dữ liệu có dấu '?' tức là bị thiếu/mất
