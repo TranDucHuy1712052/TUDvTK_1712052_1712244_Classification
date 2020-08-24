@@ -20,6 +20,7 @@ class DataReader:
         names = []
         vals = []
         for line in lines:
+            line = line.strip(' .\t\n\r')
             _line = line.split(':')
             _line[0] = _line[0].strip(' \t\n\r')        # xóa hết dấu cách và enter
             names.append(_line[0])
@@ -39,7 +40,7 @@ class DataReader:
         return (self.atrVals[idx] == [['continuous']])
 
     ## trả về dataPack 
-    def readData(self, url):
+    def __readData_helper(self, url):
         df = pd.read_csv(url, header=0)
         print("Data shape = ", df.shape)
         self.__TrimStrings(df)
@@ -87,17 +88,28 @@ class DataReader:
         print( pd.concat([result, labels], axis=1) )
         return dataPack
 
-    def readTrainData(self, url):
+    def __readTrainData(self, url):
         print("[!] Train data reading...\n\n")
-        pack = self.readData(url)
+        pack = self.__readData_helper(url)
         self.train = pack
         print("[!] Train data read successfully!\n\n")
 
-    def readTestData(self, url):
+    def __readTestData(self, url):
         print("[!] Test data reading...\n\n")
-        pack = self.readData(url)
+        pack = self.__readData_helper(url)
         self.test = pack
         print("[!] Test data read successfully!\n\n")
+
+    def readData(self, train_url, test_url):
+        self.__readTrainData(train_url)
+        self.__readTestData(test_url)
+        ## chuẩn hóa lại để cả 2 tập đều cùng số cột
+        col_list = (self.train.features.append([self.test.features])).columns.tolist()
+        self.train.features = self.train.features.reindex(columns=col_list, fill_value=0)
+        self.test.features = self.test.features.reindex(columns=col_list, fill_value=0)
+        print(self.train.features)
+        print(self.test.features)
+        print("[i] Data is ready.")
 
     ## dữ liệu có dấu '?' tức là bị thiếu/mất
     def __FindNull(self, df):
@@ -117,7 +129,7 @@ class DataReader:
         for i in range(0, rows):
             for j in range(0, cols):
                 if (type( df.iat[i,j] ) == str):
-                    df.iat[i,j] = df.iat[i,j].strip(' \t\n\r')
+                    df.iat[i,j] = df.iat[i,j].strip(' \t\n\r.')         # label bộ test có dấu chấm, cẩn thận
 
     ## encode nó sang dạng one-hot để có thể chạy được trên các mô hình
     def __EncodeData(self):
