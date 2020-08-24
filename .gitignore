@@ -1,0 +1,5 @@
+## Models folder
+Models/trained
+
+## Pkl Model files
+*.pkl

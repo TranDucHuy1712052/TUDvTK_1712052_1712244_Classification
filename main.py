@@ -10,12 +10,11 @@ from sklearn.preprocessing import OneHotEncoder
 
 dataReader = readData.DataReader()
 dataReader.ReadDataDescription('data/adult.names.txt')
-dataReader.readTrainData('data/adult.train.csv')
-dataReader.readTestData('data/adult.train.csv')
+dataReader.readData('data/adult.train.csv', 'data/adult.test.csv')
 
 # ## B2: Làm SVM (do được phép xài thư viện)
 SVM_model = svm.SVMClassifier()
-SVM_model.train(dataReader.train.features, dataReader.train.labels, save_url='models/trained/svm.pkl')
+SVM_model.train(dataReader.train.features, dataReader.train.labels, save_url='models/trained/svm_test.pkl')
 SVM_model.predict(dataReader.test.features, dataReader.test.labels)
 
 ## B3: Làm logistic reg (không được xài thư viện, tự code)
