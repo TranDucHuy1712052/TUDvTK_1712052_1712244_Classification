@@ -2,6 +2,9 @@
 (EDIT: MSSV2 = 1712242, do người tạo repo có sự nhầm lẫn)
 Đồ án cuối kì môn Toán ứng dụng và thống kê của nhóm 1712052_1712242
 
+## Pretrain model:
+https://drive.google.com/drive/folders/1VLGHYp-5n9FqAW1IlRfSapl4FsOVIa5T
+
 ## Hướng dẫn sử dụng: 
 - Tải dữ liệu xuống (ở đây nhóm xài dữ liệu Adult Data Set - UCI Machine Learning Repository: https://archive.ics.uci.edu/ml/datasets/Adult)
 
@@ -26,3 +29,5 @@ class SVMClassifier :
     ...
     self .model = svm.SVC()     ## thay đổi mô hình tại đây
 ```
+
+
